@@ -1,13 +1,13 @@
 import Movie from "./Movie"
-import useSearch from "./Search"
+
+
+
 
 export default async function Home() {
 
-  const {render, search} = useSearch()
-
+  
   const url: string = 'https://api.themoviedb.org/3'
-  const searchTerm: string = ''
-  const data = await fetch(`${url}/movie/popular?api_key=${process.env.API_KEY}`, )
+  const data = await fetch(`${url}/movie/popular?api_key=${process.env.API_KEY}`)
   const res = await data.json()
 
   type Movie = {
@@ -15,17 +15,18 @@ export default async function Home() {
     title: string,
     poster_path: string,
     release_date: string,
+    name: string,
+    first_air_date: string,
   }
 
 
   return (
     <main >
-      <div>
-        {render}
-      </div>
-      <div className="grid gap-8 grid-cols-fluid">
-      {res.results.map((movie: Movie) => ( 
+      <div className="grid gap-5 grid-cols-fluid">
+      {res?.results?.map((movie: Movie) => ( 
             <Movie 
+            name={movie.name}
+            first_air_date={movie.first_air_date}
             key={movie.id}
             id={movie.id}
             title={movie.title} 

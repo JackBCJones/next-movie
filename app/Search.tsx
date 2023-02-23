@@ -1,29 +1,31 @@
 'use client'
-import { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState, FormEvent } from "react";
 
-export default function useSearch() {
-    const [search, setSearch] = useState('')
-    const searchValue = useRef('')
+export default function Search() {
+    const [search, setSearch] = useState("")
+    const router = useRouter(); 
 
-    useEffect(() => {
-        searchValue.current.focus()
-      }, [])
-
-    function handleSearch() {
-        setSearch(searchValue.current.value.toLowerCase())
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setSearch("");
+        router.push(`${search}`)
     }
 
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-    }
 
-    return {
-    search,
-    render: (
+
+    return (
         <form onSubmit={handleSubmit}>
-            <h1>Search</h1>
-            <input type="text" name="search" ref={searchValue} onChange={handleSearch}/>
+            <input 
+            className="p-5 inline-block"
+            type="text" 
+            value={search} 
+            placeholder="Search for a movie or TV show"
+            onChange={(e) => setSearch(e.target.value)}/>
+            <button className="m-8 bg-blue-500 rounded-lg p-3" type="submit">
+                Search
+            </button>
         </form>
-    )}
+    )
 }

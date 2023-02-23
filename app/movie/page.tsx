@@ -5,11 +5,13 @@ export async function generateStaticParams(){
         )
     const res = await data.json()
     return res.results.map((movie: any) => ({
-        movie: toString(movie.id),
+        movie: movie.id.toString()
     }))
 }
 
 export default async function  MovieDetail({ params }: any){
+
+    
 
     const {movie} = params
 
@@ -17,7 +19,7 @@ export default async function  MovieDetail({ params }: any){
 
     const data = await fetch(`https://api.themoviedb.org/3/movie/${movie}?api_key=${process.env.API_KEY}`)
     const res = await data.json()
-    console.log(res)
+    // console.log(res)
     return (
         <div>
             <div>
